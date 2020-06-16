@@ -47,6 +47,7 @@ def home_view(request):
     if form.is_valid(): 
         query = form.cleaned_data['query']
         city = form.cleaned_data['city']
+        max_results = form.cleaned_data['number_queries']
         query = str(query)
         querydata = [query]
         # for loc in city_list_location:
@@ -80,7 +81,7 @@ def home_view(request):
                                                 publishedBefore = '2020-05-01T00:00:00Z',                                   
                                                 location= location[1],
                                                 locationRadius="300km",
-                                                    maxResults = 5).execute() 
+                                                    maxResults = max_results).execute() 
                         qouta+= 100
                         for item in res['items']:
                             idlist[c].append(item['snippet']['channelId'])     #append channelids to a list             

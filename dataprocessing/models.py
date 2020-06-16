@@ -1,6 +1,6 @@
 from django.db import models
 import pickle
-
+from django.core.validators import MaxValueValidator, MinValueValidator 
 with open("Indiancitynames.txt", "rb") as fp:
     arr = pickle.load(fp)
 class channel(models.Model):
@@ -17,6 +17,7 @@ class channel(models.Model):
 class userinput(models.Model):
     query = models.CharField(max_length=100)
     city = models.IntegerField(choices = arr) 
+    number_queries = models.PositiveIntegerField(default=5, validators=[MinValueValidator(1), MaxValueValidator(50)])
     def __str__(self): 
         return self.query 
 
