@@ -7,7 +7,8 @@ import pickle
 
 
 def logic(querydata,locationdata,max_results):
-    keys = ['AIzaSyAo7avr3LCs3SYVDO1N-MJpaqXY8eyAmqs',
+    keys = ['AIzaSyB00zp9PuOd2FjQwroDQAAUswAOsFJbZq0',
+        'AIzaSyAo7avr3LCs3SYVDO1N-MJpaqXY8eyAmqs',
         'AIzaSyA6rs5yQ9hGItVCs95hUbAfM81FQKd0aeo',
         'AIzaSyASHwkdbJHCKZpX2YmOXlKL1EIBM7iNO1M',
         'AIzaSyD23mnEOyGuRXA6JeheTHf_pNG9xy8l0jA',
@@ -33,9 +34,10 @@ def logic(querydata,locationdata,max_results):
     with open("Indian_city_location.txt", "rb") as fp:
         city_list_location= pickle.load(fp)
 
+        
+    youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = keys[0])
     idlist = [[] for _ in range(5)]
-    def get_ids_from_location():
-        youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = keys[0])
+    def get_ids_from_location(youtube_object):
         global qouta
         global js
         c = 0 #counter for each specific query [game][city] total 54 specific query average results per query = 300 total should be 300*54 == 16,200
@@ -72,9 +74,9 @@ def logic(querydata,locationdata,max_results):
                 idlist[c].append(query)   #adding game
                 idlist[c].append(location[0]) #adding location
                 c+=1
-        return idlist
+        return idlist , youtube_object
         
-    get_ids_from_location()
+    get_ids_from_location(youtube_object)
         
     def numberofids():  #get number of total ids
         c = 0
@@ -90,9 +92,7 @@ def logic(querydata,locationdata,max_results):
     
     unique_id()
 
-    def get_channel_statistics():
-
-        youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = keys[0])  
+    def get_channel_statistics(youtube_object):
         check = []
         global qouta
         global js
@@ -127,5 +127,5 @@ def logic(querydata,locationdata,max_results):
                     Channel.save()
                 except:
                     continue
-        return qouta, js
-    get_channel_statistics()
+        return qouta, js , youtube_object
+    get_channel_statistics(youtube_object)

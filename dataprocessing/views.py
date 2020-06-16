@@ -9,7 +9,8 @@ import pickle
 from .app_logic import logic
 
 
-keys = ['AIzaSyAo7avr3LCs3SYVDO1N-MJpaqXY8eyAmqs',
+keys = ['AIzaSyA5FOiV5a3RPa0YJoUs4dKSdyxzylLAg9o',
+        'AIzaSyAo7avr3LCs3SYVDO1N-MJpaqXY8eyAmqs',
         'AIzaSyA6rs5yQ9hGItVCs95hUbAfM81FQKd0aeo',
         'AIzaSyASHwkdbJHCKZpX2YmOXlKL1EIBM7iNO1M',
         'AIzaSyD23mnEOyGuRXA6JeheTHf_pNG9xy8l0jA',
@@ -19,7 +20,6 @@ keys = ['AIzaSyAo7avr3LCs3SYVDO1N-MJpaqXY8eyAmqs',
         'AIzaSyBzNme1vCHaLaYrnPD9gpWJ01mGKK2qaQs',
         'AIzaSyCuDPtDQdk2V7miBnIGYsfUWFyTDXPCDzE',
         'AIzaSyDbfLXXRrE5701sIzg7kJZ_3nxJA9tJAnE',
-        'AIzaSyA5FOiV5a3RPa0YJoUs4dKSdyxzylLAg9o',
         'AIzaSyChXvBe1RmsZlm9tvSHYhg9yQMYOx9zHZA',
         'AIzaSyCmLhFe_CS3OMjWrLtJbSW5_u2zGjXiCp8',
         'AIzaSyD4Ftwh1IOuXuG9iWayZuEq-RH0BLsSf-8',
@@ -50,10 +50,11 @@ def home_view(request):
         querydata = [query]
         locationdata = [city_list_location[city]]
         logic(querydata,locationdata,max_results)
+
         return redirect('dataprocessing:subtable', query)
-    else:
-        context['form']= form 
-        return render(request, "home.html", context) 
+
+    context['form']= form 
+    return render(request, "home.html", context) 
 
 def table(request):
     data = channel.objects.all()
