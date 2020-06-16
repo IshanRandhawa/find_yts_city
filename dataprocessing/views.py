@@ -1,5 +1,5 @@
 
-from django.shortcuts import render , HttpResponse
+from django.shortcuts import render , HttpResponse, redirect
 from .forms import userinput
 from apiclient.discovery import build 
 # import pandas as pd
@@ -43,7 +43,6 @@ def home_view(request):
     context ={} 
     # create object of form 
     form = userinput(request.POST or None, request.FILES or None) 
-      
     # check if form data is valid 
     if form.is_valid(): 
         query = form.cleaned_data['query']
@@ -65,7 +64,7 @@ def home_view(request):
                     print(query , location[0])
                     print (city)
                     token = None
-                    for i in range(0,4):
+                    for i in range(0,1):
                         if qouta > 500:
                             youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = keys[js])
                             print (js , 'key changed')
@@ -164,21 +163,18 @@ def home_view(request):
 
             # disk_engine = create_engine('sqlite3:///database.sqlite3')
             # df_all.to_sql('results', disk_engine, if_exists='append')
-            return qouta
+            return qouta, js
         get_channel_statistics()
-        return HttpResponseRedirect('table')
-
+        return redirect('dataprocessing:subtable', query )
     else:
         context['form']= form 
         return render(request, "home.html", context) 
-    
-
 
 def table(request):
     istekler = channel.objects.all()
     return render(request, 'template.html', locals())
 
-# def subtable(request):
-#     istekler = channel.objects.all() #get only searched by query
-#     return render(request, 'list.html', locals())
 
+def subtable(request, query):
+    isteklers = channel.objects.filter(Channel_query= query)
+    return render(request, 'list.html', locals())

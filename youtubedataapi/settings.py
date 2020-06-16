@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dataprocessing',
+    'dataprocessing.apps.DataprocessingConfig',
     'table',
+    
 ]
 
 MIDDLEWARE = [

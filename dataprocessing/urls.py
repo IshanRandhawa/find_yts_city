@@ -1,10 +1,10 @@
 
-from django.urls import path   
-# importing views from views..py 
-from .views import home_view , table 
+from django.urls import path 
+from . import views
   
-
+app_name = 'dataprocessing'
 urlpatterns = [ 
-    path('', home_view ), 
-    path('table' , table ),
-] 
+    path('', views.home_view, name = 'home'), 
+    path('table' , views.table, name = 'table'),
+    path('subtable/<str:query>' , views.subtable, name = 'subtable'),
+]
