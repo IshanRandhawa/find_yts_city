@@ -78,8 +78,7 @@ def home_view(request):
                                                 part = "snippet",
                                                 pageToken = token,
                                                 publishedAfter =  '2020-04-01T00:00:00Z',
-                                                publishedBefore = '2020-05-01T00:00:00Z',
-                                                videoCategoryId="20",                                    
+                                                publishedBefore = '2020-05-01T00:00:00Z',                                   
                                                 location= location[1],
                                                 locationRadius="300km",
                                                     maxResults = 5).execute() 
