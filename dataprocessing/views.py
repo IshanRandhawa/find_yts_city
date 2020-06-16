@@ -171,10 +171,10 @@ def home_view(request):
         return render(request, "home.html", context) 
 
 def table(request):
-    istekler = channel.objects.all()
+    data = channel.objects.all()
     return render(request, 'template.html', locals())
 
 
 def subtable(request, query):
-    isteklers = channel.objects.filter(Channel_query= query)
+    filtereddata = channel.objects.filter(Channel_query= query)
     return render(request, 'list.html', locals())
