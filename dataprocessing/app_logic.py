@@ -27,7 +27,7 @@ def logic(querydata,locationdata,max_results):
             for location in locationdata:
                 print(query , location[0])
                 token = None
-                while True:
+                for i in range(0,1):
                     if qouta > 4000:
                         keys = keys[1:] + keys[:1] #looping keys
                         with open("Api.txt", "wb") as fp:  #saving for next call of func
@@ -42,7 +42,7 @@ def logic(querydata,locationdata,max_results):
                                             publishedAfter =  '2020-04-01T00:00:00Z',
                                             publishedBefore = '2020-05-01T00:00:00Z',                                   
                                             location= location[1],
-                                            locationRadius="300km",
+                                            locationRadius="200km",
                                                 maxResults = max_results).execute() 
                     qouta+= 100
                     print("qouta + 100", qouta)
