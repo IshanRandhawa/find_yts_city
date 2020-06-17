@@ -38,7 +38,8 @@ YOUTUBE_API_VERSION = "v3"
 
 with open("Indian_city_location.txt", "rb") as fp:
     city_list_location= pickle.load(fp)
-
+with open("qouta.txt", "rb") as fp: #importing current Qouta value
+    qouta = pickle.load(fp)
 
 def home_view(request):
     context ={} 
@@ -46,7 +47,6 @@ def home_view(request):
     form = userinput(request.POST or None, request.FILES or None) 
     # check if form data is valid 
     if form.is_valid(): 
-        template=loader.get_template('list.html')
         query = form.cleaned_data['query']
         city = form.cleaned_data['city']
         max_results = form.cleaned_data['number_queries']
@@ -54,7 +54,7 @@ def home_view(request):
         querydata = [query]
         locationdata = [city_list_location[city]]
         loc_value = locationdata[0][0]
-        logic(querydata,locationdata,max_results)
+        qouta = logic(querydata,locationdata,max_results)
         params={
             'query': query,
             'city': loc_value,
@@ -62,14 +62,46 @@ def home_view(request):
         }
         filtereddata = channel.objects.filter(Q(Channel_query= params['query']) & Q(Channel_city = params['city']))
         context = {'filtereddata':filtereddata,
+                    'qouta': qouta,
+                    'query': query,
+                    'city': loc_value,
              }
-        return render(request, "home.html", context) 
+        context['Remaining_qouta'] = 490000 - qouta
+        context['records'] = len(filtereddata)
+
+        return render(request, 'list.html' , context) 
     else:
+        with open("qouta.txt", "rb") as fp: #importing current Qouta value
+            qouta = pickle.load(fp)
         context['form']= form 
+        context['qouta'] = qouta
+        context['Remaining_qouta'] = 490000 - qouta
+        data = channel.objects.all()
+        context['records'] = len(data)
+
         return render(request, "home.html", context) 
 
 def table(request):
+    context = {}
+    context['qouta'] = qouta
+    context['Remaining_qouta'] = 490000 - qouta
     data = channel.objects.all()
-    return render(request, 'template.html', locals())
+    context['data'] = data
+    context['records'] = len(data)
+    return render(request, 'template.html', context)
 
 
+def subtable(request):
+    # query=request.GET.get('query')
+    # city=request.GET.get('city')
+    # locationdata = [city_list_location[city]]
+    # loc_value = locationdata[0][0]
+    # params={
+    # 'query': query,
+    # 'city': loc_value,
+    #     }
+    # filtereddata = channel.objects.filter(Q(Channel_query= params['query']) & Q(Channel_city = params['city']))
+    # context = {'filtereddata':filtereddata,
+    #          }
+    # context['Remaining_qouta'] = 490000 - qouta
+    return render(request, 'list.html', context)

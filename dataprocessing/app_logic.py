@@ -26,7 +26,7 @@ def logic(querydata,locationdata,max_results):
                 print(query , location[0])
                 token = None
                 for i in range(0,1):
-                    if qouta > 4000:
+                    if qouta >= 4000:
                         keys = keys[1:] + keys[:1] #looping keys
                         with open("Api.txt", "wb") as fp:  #saving for next call of func
                             pickle.dump(keys, fp)
@@ -108,7 +108,7 @@ def logic(querydata,locationdata,max_results):
                     continue
         return youtube_object
 
-
     get_channel_statistics(youtube_object, keys)
     with open("qouta.txt", "wb") as fp:  #saving for next call of func
         pickle.dump(qouta, fp)
+    return qouta
