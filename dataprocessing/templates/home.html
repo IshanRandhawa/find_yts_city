@@ -25,3 +25,18 @@
 
 
 
+
+<script>
+    $(document).ready(function() {
+        var table = $('#table_id').DataTable({
+    
+    dom: 'B<"clear">lfrtip',
+    buttons: {
+        name: 'primary',
+        buttons: [ 'copy', 'csv', 'excel', 'pdf' ]
+        }});
+         
+    
+    } );
+    </script>
+    

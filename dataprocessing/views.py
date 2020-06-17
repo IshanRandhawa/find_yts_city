@@ -49,7 +49,7 @@ def home_view(request):
     if form.is_valid(): 
         query = form.cleaned_data['query']
         city = form.cleaned_data['city']
-        max_results = form.cleaned_data['number_queries']
+        max_results = form.cleaned_data['number_queries'] 
         query = str(query)
         querydata = [query]
         locationdata = [city_list_location[city]]

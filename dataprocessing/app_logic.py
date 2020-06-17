@@ -40,8 +40,8 @@ def logic(querydata,locationdata,max_results):
                                             publishedAfter =  '2020-04-01T00:00:00Z',
                                             publishedBefore = '2020-05-01T00:00:00Z',                                   
                                             location= location[1],
-                                            locationRadius="200km",
-                                                maxResults = max_results).execute() 
+                                            locationRadius="100km",
+                                                maxResults = max_results ).execute() 
                     qouta+= 100
                     print("qouta + 100", qouta)
                     for item in res['items']:
