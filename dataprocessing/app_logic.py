@@ -7,51 +7,33 @@ import pickle
 
 
 def logic(querydata,locationdata,max_results):
-    keys = ['AIzaSyB00zp9PuOd2FjQwroDQAAUswAOsFJbZq0',
-        'AIzaSyAo7avr3LCs3SYVDO1N-MJpaqXY8eyAmqs',
-        'AIzaSyA6rs5yQ9hGItVCs95hUbAfM81FQKd0aeo',
-        'AIzaSyASHwkdbJHCKZpX2YmOXlKL1EIBM7iNO1M',
-        'AIzaSyD23mnEOyGuRXA6JeheTHf_pNG9xy8l0jA',
-        'AIzaSyBU5G94AVLCgcVLJX0rUImzE-hcVBJNFyo',
-        'AIzaSyDZuFK1HIafmBi8tN5YMNmr818SjaPSN_E',
-        'AIzaSyC89-z5XYM-fGWHOVBZKP8AY2APmGLJSy4',
-        'AIzaSyBzNme1vCHaLaYrnPD9gpWJ01mGKK2qaQs',
-        'AIzaSyCuDPtDQdk2V7miBnIGYsfUWFyTDXPCDzE',
-        'AIzaSyDbfLXXRrE5701sIzg7kJZ_3nxJA9tJAnE',
-        'AIzaSyA5FOiV5a3RPa0YJoUs4dKSdyxzylLAg9o',
-        'AIzaSyChXvBe1RmsZlm9tvSHYhg9yQMYOx9zHZA',
-        'AIzaSyCmLhFe_CS3OMjWrLtJbSW5_u2zGjXiCp8',
-        'AIzaSyD4Ftwh1IOuXuG9iWayZuEq-RH0BLsSf-8',
-        'AIzaSyBpG9A7ZGHNRZjSinIzf9xuwrA5Q6cZb-U']
+    with open("Api.txt", "rb") as fp:
+        keys = pickle.load(fp)
     global qouta
-    qouta = 0
-    global js 
-    js = 1
+    with open("qouta.txt", "rb") as fp:
+        qouta = pickle.load(fp)
     YOUTUBE_API_SERVICE_NAME = "youtube"
     YOUTUBE_API_VERSION = "v3"
-
 
     with open("Indian_city_location.txt", "rb") as fp:
         city_list_location= pickle.load(fp)
 
-        
     youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = keys[0])
     idlist = [[] for _ in range(5)]
-    def get_ids_from_location(youtube_object):
+    def get_ids_from_location(youtube_object, keys):
         global qouta
-        global js
         c = 0 #counter for each specific query [game][city] total 54 specific query average results per query = 300 total should be 300*54 == 16,200
         for query in querydata: 
             for location in locationdata:
                 print(query , location[0])
                 token = None
-                for i in range(0,1):
-                    if qouta > 500:
-                        youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = keys[js])
-                        print (js , 'key changed')
-                        js +=1
-                        if js == len(keys):
-                            js = 0
+                while True:
+                    if qouta > 4000:
+                        keys = keys[1:] + keys[:1] #looping keys
+                        with open("Api.txt", "wb") as fp:  #saving for next call of func
+                            pickle.dump(keys, fp)
+                        youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = keys[0])
+                        print ('key changed for id search')
                         qouta = 0
                     res = youtube_object.search().list(q = query, 
                                             type ='video', 
@@ -63,6 +45,7 @@ def logic(querydata,locationdata,max_results):
                                             locationRadius="300km",
                                                 maxResults = max_results).execute() 
                     qouta+= 100
+                    print("qouta + 100", qouta)
                     for item in res['items']:
                         idlist[c].append(item['snippet']['channelId'])     #append channelids to a list             
                     try:
@@ -75,8 +58,7 @@ def logic(querydata,locationdata,max_results):
                 idlist[c].append(location[0]) #adding location
                 c+=1
         return idlist , youtube_object
-        
-    get_ids_from_location(youtube_object)
+    get_ids_from_location(youtube_object, keys)
         
     def numberofids():  #get number of total ids
         c = 0
@@ -92,10 +74,8 @@ def logic(querydata,locationdata,max_results):
     
     unique_id()
 
-    def get_channel_statistics(youtube_object):
-        check = []
+    def get_channel_statistics(youtube_object, keys):
         global qouta
-        global js
         ids = idlist
         for tk in range(len(ids)):   #loop for each specific query
             for j in range(len(ids[tk])-2): #loop over unique ids in the query
@@ -103,12 +83,13 @@ def logic(querydata,locationdata,max_results):
                 channeldata = youtube_object.channels().list(part="snippet,statistics",id=ids[tk][j])
                 response = channeldata.execute()
                 qouta += 5
-                if qouta > 500:
-                    youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = keys[js])
-                    print (js , 'key changed')
-                    js +=1
-                    if js == len(keys):
-                        js = 0
+                print ("qouta + 5", qouta)
+                if qouta >= 4000:
+                    keys = keys[1:] + keys[:1] #looping keys
+                    with open("Api.txt", "wb") as fp:  #saving for next call of func
+                            pickle.dump(keys, fp)
+                    youtube_object = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey = keys[0])
+                    print("key changed for data retrival")
                     qouta = 0
                 if not response.get('items'):
                     continue
@@ -127,5 +108,9 @@ def logic(querydata,locationdata,max_results):
                     Channel.save()
                 except:
                     continue
-        return qouta, js , youtube_object
-    get_channel_statistics(youtube_object)
+        return youtube_object
+
+
+    get_channel_statistics(youtube_object, keys)
+    with open("qouta.txt", "wb") as fp:  #saving for next call of func
+        pickle.dump(qouta, fp)
