@@ -4,13 +4,11 @@ from .models import channel
 import pickle
 
 
-
-
 def logic(querydata,locationdata,max_results):
-    with open("Api.txt", "rb") as fp:
+    with open("Api.txt", "rb") as fp: #importing API list
         keys = pickle.load(fp)
     global qouta
-    with open("qouta.txt", "rb") as fp:
+    with open("qouta.txt", "rb") as fp: #importing current Qouta value
         qouta = pickle.load(fp)
     YOUTUBE_API_SERVICE_NAME = "youtube"
     YOUTUBE_API_VERSION = "v3"

@@ -7,6 +7,9 @@ from django.http import JsonResponse , HttpResponseRedirect
 from .models import channel
 import pickle
 from .app_logic import logic
+from django.db.models import Q
+from django.template import loader
+
 
 
 keys = ['AIzaSyA5FOiV5a3RPa0YJoUs4dKSdyxzylLAg9o',
@@ -43,24 +46,30 @@ def home_view(request):
     form = userinput(request.POST or None, request.FILES or None) 
     # check if form data is valid 
     if form.is_valid(): 
+        template=loader.get_template('list.html')
         query = form.cleaned_data['query']
         city = form.cleaned_data['city']
         max_results = form.cleaned_data['number_queries']
         query = str(query)
         querydata = [query]
         locationdata = [city_list_location[city]]
+        loc_value = locationdata[0][0]
         logic(querydata,locationdata,max_results)
-
-        return redirect('dataprocessing:subtable', query)
-
-    context['form']= form 
-    return render(request, "home.html", context) 
+        params={
+            'query': query,
+            'city': loc_value,
+            'max_results': max_results,
+        }
+        filtereddata = channel.objects.filter(Q(Channel_query= params['query']) & Q(Channel_city = params['city']))
+        context = {'filtereddata':filtereddata,
+             }
+        return render(request, "home.html", context) 
+    else:
+        context['form']= form 
+        return render(request, "home.html", context) 
 
 def table(request):
     data = channel.objects.all()
     return render(request, 'template.html', locals())
 
 
-def subtable(request, query):
-    filtereddata = channel.objects.filter(Channel_query= query)
-    return render(request, 'list.html', locals())
