@@ -2,6 +2,6 @@
 Find youtubers to collaborate or just for fun in a city
 
 
-Need to fix the data returned <br />
-Fix API security<br />
-fix form widgets<br />
+Need to fix the data returned priority one <br />
+Fix API security low priority<br />
+fix form widgets low priority<br />
