@@ -1,6 +1,6 @@
 
 <div class="container">
-    <h1></i> Youtube Data </h1>
+    <h1></i> Find youtubers near you </h1>  
     <h2> Qouta used already is {{ qouta }}  </h2>
     <h2> Remaining Qouta is {{ Remaining_qouta }}  </h2>
     <h2> Number of records in database is {{ records }}  </h2>
@@ -27,16 +27,29 @@
 
 
 <script>
-    $(document).ready(function() {
-        var table = $('#table_id').DataTable({
-    
-    dom: 'B<"clear">lfrtip',
+
+$(document).ready(function() {
+    // Setup - add a text input to each footer cell
+    $('#table_id tfoot th').each( function () {
+        var title = $(this).text();
+        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    } );
+    $('#example').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    } );
+    // DataTable
+    var table = $('#table_id').DataTable( {
+    dom: 'B<"clear">frtip',
     buttons: {
         name: 'primary',
         buttons: [ 'copy', 'csv', 'excel', 'pdf' ]
-        }});
-         
+        }}
     
-    } );
-    </script>
-    
+    );
+ 
+} );
+
+</script>
