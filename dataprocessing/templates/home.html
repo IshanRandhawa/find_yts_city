@@ -1,55 +1,30 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
 <div class="container">
-    <h1></i> Find youtubers near you </h1>  
+    <!-- Content here -->
+ 
+<div class= "form-group">
+<h1></i> Find youtubers near you </h1>  
     <h2> Qouta used already is {{ qouta }}  </h2>
     <h2> Remaining Qouta is {{ Remaining_qouta }}  </h2>
     <h2> Number of records in database is {{ records }}  </h2>
-
     <hr>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.21/af-2.3.5/b-1.6.2/b-colvis-1.6.2/b-flash-1.6.2/b-html5-1.6.2/cr-1.5.2/fc-3.3.1/fh-3.1.7/kt-2.5.2/r-2.2.5/rg-1.1.2/rr-1.2.7/sc-2.0.2/sp-1.1.1/sl-1.3.1/datatables.css"/>
- 
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.21/af-2.3.5/b-1.6.2/b-colvis-1.6.2/b-flash-1.6.2/b-html5-1.6.2/cr-1.5.2/fc-3.3.1/fh-3.1.7/kt-2.5.2/r-2.2.5/rg-1.1.2/rr-1.2.7/sc-2.0.2/sp-1.1.1/sl-1.3.1/datatables.js"></script>
-    <table id="table_id" class="display" border='2' align="center"  style="width:100%">
+
 
 <form action = "" method = "post"> 
-    {% csrf_token %} 
-    <table> 
+    {% csrf_token %}   
         {{ form.as_table }} 
-    </table> 
-    <input type="submit" value="Search"> 
+
+    <script>
+    function updateTextInput(val) {
+        document.getElementById('number_queries').value=val; 
+    }
+      </script>
+    <input type="Integer" id="number_queries"  placeholder = '5' value="">
+
+    <button type="submit" class="btn btn-primary btn-lg">Search</button>
+</div>
 </form> 
 
-
-
-
-
-
-
-
-<script>
-
-$(document).ready(function() {
-    // Setup - add a text input to each footer cell
-    $('#table_id tfoot th').each( function () {
-        var title = $(this).text();
-        $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
-    } );
-    $('#example').DataTable( {
-        dom: 'Bfrtip',
-        buttons: [
-            'copy', 'csv', 'excel', 'pdf', 'print'
-        ]
-    } );
-    // DataTable
-    var table = $('#table_id').DataTable( {
-    dom: 'B<"clear">frtip',
-    buttons: {
-        name: 'primary',
-        buttons: [ 'copy', 'csv', 'excel', 'pdf' ]
-        }}
-    
-    );
- 
-} );
-
-</script>
+</div>
