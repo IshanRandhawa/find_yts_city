@@ -79,7 +79,7 @@ def home_view(request):
         data = channel.objects.all()
         context['records'] = len(data)
 
-        return render(request, "home.html", context) 
+        return render(request, "index.html", context) 
 
 def table(request):
     context = {}

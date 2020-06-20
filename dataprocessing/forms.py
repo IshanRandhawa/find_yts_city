@@ -10,11 +10,13 @@ class userinput(forms.ModelForm):
         fields = ('query','city','number_queries')
     
         widgets = {
-            'query': forms.TextInput(attrs={'class': 'form-control' , 'placeholder':'Your interests'}),
-            'city': forms.Select(attrs={'class': 'form-control'}),
-            'number_queries':forms.NumberInput(attrs={'class': 'form-control', 'type':'range','min':"1", 'max':"50" ,'onchange':"updateTextInput(this.value)"}),
+            'query': forms.TextInput(attrs={'class': 'styles.css' , 'placeholder':'Your interests'}),
+            'city': forms.Select(attrs={'class': 'styles.css',  'placeholder':'Choose a city from the list'}),
+            'number_queries':forms.NumberInput(attrs={'class': 'styles.css', 'type':'range','min':"1", 'max':"50" ,'onchange':"updateTextInput(this.value)"}),
         }
-
+        labels = {
+            "number_queries": "Number of results",
+        }
         # help_texts = {
         #     'query': ('Type what type of youtubers you are looking for'),
         # }
