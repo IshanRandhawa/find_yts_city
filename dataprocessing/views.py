@@ -75,7 +75,7 @@ def table(request):
     return render(request, 'database.html', context)
 
 
-def subtable(request):
+def subtable(request, context):
     query=request.GET.get('query')
     city=request.GET.get('city')
     locationdata = [city_list_location[city]]
