@@ -38,7 +38,6 @@ def logic(querydata,locationdata,max_results):
                                             part = "snippet",
                                             pageToken = token,
                                             publishedAfter =  '2020-04-01T00:00:00Z',
-                                            publishedBefore = '2020-05-01T00:00:00Z',                                   
                                             location= location[1],
                                             locationRadius="100km",
                                                 maxResults = max_results ).execute() 

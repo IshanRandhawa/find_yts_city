@@ -27,8 +27,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Search</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#projects">Dataset</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#projects">Search</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">Dataset</a></li>
                     </ul>
                 </div>
             </div>
@@ -38,9 +38,7 @@
             <div class="container d-flex h-100 align-items-center">
                 <div class="mx-auto text-center">
                     <h1 class="mx-auto my-0 text-uppercase">Find youtubers near you</h1>
-                    <h2 class="text-white-50 mx-auto mt-2 mb-5"> Number of records in database is {{ records }}</h2>
-                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Qouta used already is {{ qouta }} </h2>
-                    <h2 class="text-white-50 mx-auto mt-2 mb-5">Remaining Qouta is {{ Remaining_qouta }} </h2>
+                    <h2 class="text-white-50 mx-auto mt-2 mb-5"> Number of channels found is {{ records }}</h2>
                     <a class="btn btn-primary js-scroll-trigger" href="#about">Learn how it works</a>
                 </div>
             </div>
@@ -56,23 +54,13 @@
                         <p class="text-white-50">
                             Uses your query term to search youtube for videos that match your interests and were uploaded in the city of your choice
                         </p>
-                        <div class="featured-text text-center text-lg-left">
-                          <div class="text-white mb-4">
-                            <div class= "form-control-lg">
-                              <form action = "" method = "post">  
+                        <div class="container">
+                            <!-- Project One Row-->
+                            <h4 class="text-white mb-4"> Channel data </h4>
+                  
+                            <p class="text-white-50">This dataset contains data about terms and locations already searched by users</p>
                             
-                                  {% csrf_token %}   
-                                      {{ form.as_ul }} 
-                                  <script>
-                                  function updateTextInput(val) {
-                                      document.getElementById('number_queries').value=val; 
-                                  }
-                                    </script>
-                                  <input type="Integer" id="number_queries"  placeholder = '5' value="">
-                                  <button type="submit" class="btn btn-primary btn-lg">Search</button>
-                                  </div>
-
-                      </div>
+                            <a href="/database" class="btn btn-info" role="button">Search the database</a></div>
                         </div>
                         </form> 
                         
@@ -81,21 +69,12 @@
                     </div>
 
                 </div>
-                <img class="img-fluid" src="{% static 'assets/img/ipad.png' %}" alt="" />
+                <img class="img-fluid" src="{% static 'assets/img/bg-masthead.png' %}" alt="" />
             </div>
         </section>
         <!-- Projects-->
         <section class="projects-section bg-light" id="projects">
-            <div class="container">
-                <!-- Project One Row-->
-
-                <h4>Channel data</h4>
-      
-             
-
-                <p class="mx-auto text-left">This dataset contains data about terms and locations already searched by users</p>
-                
-                <a href="/table" class="btn btn-info" role="button">Search the data</a></div>
+ 
                     </div>
                   <div class="col-xl-4 col-lg-5">
                   </div>
@@ -107,14 +86,30 @@
                 
                 <!-- Project Two Row-->
 
+                    <div class= "form-control-lg">
+                      <form action = "" method = "post">  
+                    
+                          {% csrf_token %}   
+                              {{ form.as_table}} 
+                          <script>
+                          function updateTextInput(val) {
+                              document.getElementById('number_queries').value=val; 
+                          }
+                            </script>
+                          <input type="Integer" id="number_queries"  placeholder = '5' value="">
+                          <button type="submit" class="btn btn-primary btn-lg">Search</button>
+                          </div>
+
+              </div>
             </div>
+            
         </section>
         <!-- Signup-->
 
         <!-- Contact-->
 
         <!-- Footer-->
-        <footer class="footer bg-black small text-center text-white-50"><div class="container">Copyright © Your Website 2020</div></footer>
+        <footer class="footer bg-black small text-center text-white-50"><div class="container">Copyright © IshanRandhawa 2020</div></footer>
         <!-- Bootstrap core JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
@@ -124,3 +119,4 @@
         <script src="{%static 'js/scripts.js' %}"></script>
     </body>
 </html>
+    

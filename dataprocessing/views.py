@@ -12,22 +12,6 @@ from django.template import loader
 
 
 
-keys = ['AIzaSyA5FOiV5a3RPa0YJoUs4dKSdyxzylLAg9o',
-        'AIzaSyAo7avr3LCs3SYVDO1N-MJpaqXY8eyAmqs',
-        'AIzaSyA6rs5yQ9hGItVCs95hUbAfM81FQKd0aeo',
-        'AIzaSyASHwkdbJHCKZpX2YmOXlKL1EIBM7iNO1M',
-        'AIzaSyD23mnEOyGuRXA6JeheTHf_pNG9xy8l0jA',
-        'AIzaSyBU5G94AVLCgcVLJX0rUImzE-hcVBJNFyo',
-        'AIzaSyDZuFK1HIafmBi8tN5YMNmr818SjaPSN_E',
-        'AIzaSyC89-z5XYM-fGWHOVBZKP8AY2APmGLJSy4',
-        'AIzaSyBzNme1vCHaLaYrnPD9gpWJ01mGKK2qaQs',
-        'AIzaSyCuDPtDQdk2V7miBnIGYsfUWFyTDXPCDzE',
-        'AIzaSyDbfLXXRrE5701sIzg7kJZ_3nxJA9tJAnE',
-        'AIzaSyChXvBe1RmsZlm9tvSHYhg9yQMYOx9zHZA',
-        'AIzaSyCmLhFe_CS3OMjWrLtJbSW5_u2zGjXiCp8',
-        'AIzaSyD4Ftwh1IOuXuG9iWayZuEq-RH0BLsSf-8',
-        'AIzaSyBpG9A7ZGHNRZjSinIzf9xuwrA5Q6cZb-U']
-
 global qouta
 qouta = 0
 global js 
@@ -88,20 +72,20 @@ def table(request):
     data = channel.objects.all()
     context['data'] = data
     context['records'] = len(data)
-    return render(request, 'template.html', context)
+    return render(request, 'database.html', context)
 
 
 def subtable(request):
-    # query=request.GET.get('query')
-    # city=request.GET.get('city')
-    # locationdata = [city_list_location[city]]
-    # loc_value = locationdata[0][0]
-    # params={
-    # 'query': query,
-    # 'city': loc_value,
-    #     }
-    # filtereddata = channel.objects.filter(Q(Channel_query= params['query']) & Q(Channel_city = params['city']))
-    # context = {'filtereddata':filtereddata,
-    #          }
-    # context['Remaining_qouta'] = 490000 - qouta
+    query=request.GET.get('query')
+    city=request.GET.get('city')
+    locationdata = [city_list_location[city]]
+    loc_value = locationdata[0][0]
+    params={
+    'query': query,
+    'city': loc_value,
+        }
+    filtereddata = channel.objects.filter(Q(Channel_query= params['query']) & Q(Channel_city = params['city']))
+    context = {'filtereddata':filtereddata,
+             }
+    context['Remaining_qouta'] = 490000 - qouta
     return render(request, 'list.html', context)
