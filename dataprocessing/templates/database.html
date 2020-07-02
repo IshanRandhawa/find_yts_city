@@ -50,7 +50,7 @@
         <tbody>
             <tr >
             {% for t in data %}
-            <TD class="c3" align="center">{{ t.Channel_id }}</TD>
+            <TD class="c3" align="center">https://www.youtube.com/channel/{{ t.Channel_id }}</TD>
             <TD class="c3" align="center">{{ t.Channel_name }}</TD>
             <TD class="c3" align="center">{{ t.Channel_subscribers }}</TD>
             <TD class="c3" align="center">{{ t.Channel_views }}</TD>
@@ -107,7 +107,9 @@
                 var title = $(this).text();
                 $(this).html( '<input type="text" placeholder="Search '+title+'" />' );
             } );
-            var table = $('#table_id').DataTable(  {
+            var table = $('#table_id').DataTable(
+                                
+                  {
                 initComplete: function () {
                     // Apply the search
                     this.api().columns().every( function () {
@@ -121,15 +123,26 @@
                             }
                         } );
                     } );
+
+   
                 },
+
+                columnDefs : [
+      { targets : [0],
+        render : function(data) {
+          return '<a href="'+data+'" target_blank>Channel link</a>'
+        } 
+      }
+    ],
+                
                 
                 dom: 'Bfrtip',
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf'
                 ]
-            }
-
                 
+            }, 
+           
         );
             
             // Event listener to the two range filtering inputs to redraw on input

@@ -37,9 +37,8 @@ def logic(querydata,locationdata,max_results):
                                             type ='video', 
                                             part = "snippet",
                                             pageToken = token,
-                                            publishedAfter =  '2020-04-01T00:00:00Z',
                                             location= location[1],
-                                            locationRadius="100km",
+                                            locationRadius="50km",
                                                 maxResults = max_results ).execute() 
                     qouta+= 100
                     print("qouta + 100", qouta)
