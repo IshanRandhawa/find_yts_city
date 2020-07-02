@@ -50,7 +50,7 @@
         <tbody>
             <tr >
             {% for t in data %}
-            <TD class="c3" align="center">https://www.youtube.com/channel/{{ t.Channel_id }}</TD>
+            <TD class="c3" align="center">{{ t.Channel_id }}</TD>
             <TD class="c3" align="center">{{ t.Channel_name }}</TD>
             <TD class="c3" align="center">{{ t.Channel_subscribers }}</TD>
             <TD class="c3" align="center">{{ t.Channel_views }}</TD>
@@ -127,14 +127,13 @@
    
                 },
 
-                columnDefs : [
+                                columnDefs : [
       { targets : [0],
         render : function(data) {
-          return '<a href="'+data+'" target_blank>Channel link</a>'
+          return '<a href="https://www.youtube.com/channel/'+data+'">'+data+'</a>'
         } 
       }
-    ],
-                
+    ],   
                 
                 dom: 'Bfrtip',
                 buttons: [
